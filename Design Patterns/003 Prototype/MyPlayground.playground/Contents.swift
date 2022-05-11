@@ -67,7 +67,7 @@ print(person5 === person6)
 //Now is time for best prototype in swift.
 // It is the same like NSCopying using Swift
 
-protocol Copiable {
+public protocol Copiable {
     init(_ prototype: Self)
 }
 
