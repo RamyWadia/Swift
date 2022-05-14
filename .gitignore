@@ -66,6 +66,8 @@ playground.xcworkspace
 
 Carthage/Build/
 
+.DS_Store
+
 # Accio dependency management
 Dependencies/
 .accio/
