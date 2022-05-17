@@ -158,6 +158,56 @@ class PersistenceCoordinatorTest: XCTestCase {
         waitForExpectations(timeout: 2.0, handler: nil)
     }
     
+    
+    func testDeleteManagedObjects() {
+        let amountToGenerate = 3000
+        let context = persistenceCoordinator.backgroundContext
+        generateNotes(context: context, amount: amountToGenerate)
+        
+        let deleteExpectations = self.expectation(description: "Delete Expectation")
+        
+        persistenceCoordinator.fetch(from: context, fetchRequest: Note.fetchRequest()) { result in
+            switch result {
+            case .success(let fetchedResults):
+                XCTAssert(fetchedResults.count == amountToGenerate)
+                persistenceCoordinator.delete(managedObjects: fetchedResults) { fetchError in
+                    XCTAssertNil(fetchError)
+                }
+            case .failure(let fetchError):
+                XCTAssertNotNil(fetchError)
+            }
+        }
+        
+        persistenceCoordinator.fetch(from: context, fetchRequest: Note.fetchRequest()) { results in
+            switch results {
+            case .success(let fetchedResults2):
+                XCTAssert(fetchedResults2.isEmpty)
+                XCTAssert(fetchedResults2.count == 0)
+            case .failure(let fetchError2):
+                XCTAssertNotNil(fetchError2)
+            }
+            deleteExpectations.fulfill()
+        }
+        waitForExpectations(timeout: 3.0, handler: nil)
+    }
 
 }
 
+extension PersistenceCoordinatorTest {
+    
+    func generateNotes(context: NSManagedObjectContext, amount: Int) {
+        
+        for i in 0..<amount {
+            let note = Note(context: context)
+            note.creatingDate = Date()
+            note.title = "\(i)"
+            note.text = "\(i)"
+            
+            do {
+                try context.save()
+            } catch {
+                XCTFail("Failed to save: \(error.localizedDescription)")
+            }
+        }
+    }
+}
