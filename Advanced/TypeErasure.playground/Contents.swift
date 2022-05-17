@@ -1,5 +1,8 @@
 import UIKit
 
+///the idea behind TypeErasure is to put your type
+///inside a box and expose a different type.
+
 protocol ObjectMapper {
     associatedtype SourceType
     associatedtype ResultType
