@@ -157,6 +157,7 @@ class PersistenceCoordinatorTest: XCTestCase {
         }
         waitForExpectations(timeout: 2.0, handler: nil)
     }
-
+    
 
 }
+

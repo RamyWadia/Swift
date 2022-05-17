@@ -88,4 +88,35 @@ class PersistenceCoordinator {
             fetchCompletionHandler(.failure(error))
         }
     }
+    
+    //DeleteRules
+    //Nullify: Removes only the relationship between the objects.
+    // in this example this is useful when moving a note from a folder to another.
+    //Cascade: Delete the objects at the destination of the relationship
+    // when you delete the source.
+    // if you delete a folder it deletes every note that
+    // in relationship with this folder.
+    //Deny: If there is at least one object at the relationship destination (note)
+    // do not delete the source object (folder).
+    //NoAction: does nothign to the object at the destination of a relationship.
+    // deleting a folder will keep the notes and relationships in place.
+    func delete(managedObjects: [NSManagedObject], completion: @escaping CompletionHandler) {
+        
+        //check Batch Delete later, here we keep it simple for now
+        //https://www.advancedswift.com/batch-delete-everything-core-data-swift/
+        
+        
+        do {
+            for i in 0..<managedObjects.count {
+                if let context = managedObjects[i].managedObjectContext {
+                    context.delete(managedObjects[i])
+                    try context.save()
+                    try context.parent?.save()
+                }
+            }
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
 }
