@@ -100,6 +100,7 @@ class PersistenceCoordinator {
     // do not delete the source object (folder).
     //NoAction: does nothign to the object at the destination of a relationship.
     // deleting a folder will keep the notes and relationships in place.
+    
     func delete(managedObjects: [NSManagedObject], completion: @escaping CompletionHandler) {
         
         //check Batch Delete later, here we keep it simple for now
