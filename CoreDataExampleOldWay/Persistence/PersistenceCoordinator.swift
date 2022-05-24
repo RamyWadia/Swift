@@ -13,6 +13,9 @@ class PersistenceCoordinator {
     typealias CompletionHandler = (Error?) -> Void
     typealias FetchedResultsHandler = (Result<[NSManagedObject], Error>) -> Void
     
+    let persistentContainer: NSPersistentContainer
+    let model: NSManagedObjectModel
+    
     var fetchingContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -20,9 +23,6 @@ class PersistenceCoordinator {
     var backgroundContext: NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }
-    
-    let persistentContainer: NSPersistentContainer
-    let model: NSManagedObjectModel
     
     init(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
@@ -33,7 +33,7 @@ class PersistenceCoordinator {
     init(model: NSManagedObjectModel, storeDescription: NSPersistentStoreDescription) {
         self.model = model
         //the name is empty string as the NSMnagedObjectModel object overrides the lookup of the model by the provided name value.
-        self.persistentContainer = NSPersistentContainer(name: "", managedObjectModel: model)
+        self.persistentContainer = NSPersistentContainer(name: "DataModel", managedObjectModel: model)
         self.persistentContainer.persistentStoreDescriptions = [storeDescription]
     }
     
@@ -72,7 +72,6 @@ class PersistenceCoordinator {
                 print("Hit an error: \(error.localizedDescription)")
                 completion(error)
             }
-            
         }
     }
     
