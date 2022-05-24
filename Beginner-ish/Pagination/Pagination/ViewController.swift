@@ -70,6 +70,10 @@ extension ViewController: UITableViewDelegate, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
+        //ContentOffSet is:
+        //The point at which the origin of
+        //the content view is offset from the origin
+        //of the scroll view.
         if position > (tableView.contentSize.height-50-scrollView.frame.size.height) {
             guard !apiCaller.isPaginating else { return }
             self.tableView.tableFooterView = createSpinnerFooter()
