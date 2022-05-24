@@ -1,5 +1,5 @@
 //
-//  TwitterAdapter.swift
+//  TwitterAuthAdapter.swift
 //  AdapterExample
 //
 //  Created by Ramy Atalla on 2022-05-24.

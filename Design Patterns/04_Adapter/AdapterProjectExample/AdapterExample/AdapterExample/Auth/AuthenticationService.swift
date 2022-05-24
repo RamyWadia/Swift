@@ -17,7 +17,6 @@ public struct Token {
 }
 
 public protocol AuthenticationService {
-    typealias authenticatedUser = (User, Token)
     
     typealias completionSuccess = (User, Token) -> Void
     typealias completionFailure = (Error?) -> Void
